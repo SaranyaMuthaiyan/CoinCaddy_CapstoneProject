@@ -17,7 +17,6 @@ async function getData() {
 }
 
 getData()
-
   
 }, [])
 
