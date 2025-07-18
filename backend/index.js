@@ -1,24 +1,21 @@
 import express  from 'express'
-import cors from 'cors'
-import connectDb from './db.js'
-import 'dotenv/config'
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import userRoutes from './routes/UserRoutes.js';
+import financeRoutes from './routes/financeRoutes.js';
+import dotenv from 'dotenv';
 
-import Transaction from '..models/transaction.js'
-import User from '..models/User.js';
+dotenv.config();
+const app = express();
+const port = process.env.PORT;
+app.use(express.json());
+app.use(cors());
+app.use('/api/users', userRoutes)
+app.use('/api/finance', financeRoutes);
 
-const app= express()
 
-const port = process.env.PORT
 
-app.use(cors())
-
-app.get()
-
-app.get('/', (req, res) => {
-    res.json(" Hello User") //connect to server
-    
-})
-
-app.listen(port, () => {console.log("Listening to port: "  + port),
-    connectDb() //connect to db
-})
+mongoose.connect(process.env.MONGO_URL).then(() => {
+  app.listen(port, () => console.log('Server running on port 3000'));
+});
