@@ -11,22 +11,25 @@ import {
   Legend
 } from 'chart.js';
 
-ChartJS.register(BarElement, CategoryScale, LinearScale,ArcElement, Tooltip, Legend);
+ChartJS.register(BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
   const [income, setIncome] = useState([]);
   const [expenses, setExpenses] = useState([]);
-   // Inputs
+
+
+  // Inputs
   const [newIncomeSource, setNewIncomeSource] = useState('');
   const [newIncomeAmount, setNewIncomeAmount] = useState('');
   const [newExpenseCategory, setNewExpenseCategory] = useState('');
   const [newExpenseAmount, setNewExpenseAmount] = useState('');
   const [newExpenseSource, setNewExpenseSource] = useState('');
+  const [refetch, setRefetch] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const incomeRes = await axios.get('http://localhost:3000/api/finance/income');
+        const incomeRes = await axios.get('http://localhost:3000/api/income');
         const expenseRes = await axios.get('http://localhost:3000/api/finance/expenses');
         setIncome(incomeRes.data);
         setExpenses(expenseRes.data);
@@ -37,7 +40,7 @@ const Dashboard = () => {
     fetchData();
   }, [refetch]);
 
-   // Add entries
+  // Add entries
   const addIncome = () => {
     if (!newIncomeSource || !newIncomeAmount) return;
     setIncome([...income, { source: newIncomeSource, amount: parseFloat(newIncomeAmount) }]);
@@ -45,8 +48,8 @@ const Dashboard = () => {
     setNewIncomeAmount('');
   };
 
- const addExpense = () => {
-   try {
+  const addExpense = async () => {
+    try {
       const postExpense = await axios.post('http://localhost:3000/api/finance/expenses', {
         category: newExpenseCategory,
         amount: newExpenseAmount,
@@ -59,17 +62,18 @@ const Dashboard = () => {
       console.error(err)
     }
   };
-   console.log(newExpenseCategory, newExpenseAmount, newExpenseSource)
-// Delete
+  console.log(newExpenseCategory, newExpenseAmount, newExpenseSource)
+  // Delete
   const deleteIncome = (index) => setIncome(income.filter((_, i) => i !== index));
-  const deleteExpense = (index) => setExpenses(expenses.filter((_, i) => i !== index));
-try {
+  const deleteExpense = async (id) => {
+    try {
       await axios.delete(`http://localhost:3000/api/finance/${id}`)
       setRefetch(refetch + 1);
     } catch (err) {
       console.error("Error while deleting the expense", id)
     }
   };
+
   // Summary logic
   const incomeWithBalance = income.map((i) => {
     const spent = expenses
@@ -81,7 +85,7 @@ try {
       remaining: i.amount - spent
     };
   });
-// Color logic for Pie chart
+  // Color logic for Pie chart
   const getColor = (remaining) => {
     if (remaining > 1000) return 'rgba(34,197,94,0.6)'; // Green
     if (remaining > 0) return 'rgba(251,191,36,0.6)';  // Yellow
@@ -161,28 +165,46 @@ try {
       {/* Expense Table */}
       <div className="mt-10 bg-white p-6 rounded-lg shadow">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Manage Expenses</h2>
-        <div className="flex gap-3 flex-wrap mb-4">
-                    <input
-            type="text"
-            placeholder="Spent from (income source)"
-            value={newExpenseSource}
-            onChange={(e) => setNewExpenseSource(e.target.value)}
-            className="px-3 py-2 border rounded w-full md:w-[30%]"
-          />
-          <button
-            onClick={addExpense}
-            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-          >
-            Add
-          </button>
-        </div>
 
+        {/* Add Expense Inputs */}
+        <form name="newExpense" action={addExpense}>
+          <div className='flex gap-4 mb-4'>
+            <input
+              type="text"
+              placeholder="Category"
+              value={newExpenseCategory}
+              onChange={(e) => setNewExpenseCategory(e.target.value)}
+              className="px-3 py-2 border rounded w-1/2"
+            />
+            <input
+              type="number"
+              placeholder="Amount"
+              value={newExpenseAmount}
+              onChange={(e) => setNewExpenseAmount(e.target.value)}
+              className="px-3 py-2 border rounded w-1/2"
+            />
+            <input
+              type="text"
+              placeholder="Source"
+              value={newExpenseSource}
+              onChange={(e) => setNewExpenseSource(e.target.value)}
+              className="px-3 py-2 border rounded w-1/2wzv"
+            />
+            <button
+              type="submit"
+              className="bg-indigo-600 text-white px-5 py-2 rounded hover:bg-indigo-700 ml-4"
+            >  Add
+            </button>
+          </div>
+        </form>
+
+        {/* Expense Table */}
         <table className="w-full table-auto border border-gray-300">
           <thead className="bg-gray-200">
             <tr>
               <th className="text-left px-4 py-2">Category</th>
               <th className="text-left px-4 py-2">Amount</th>
-              <th className="text-left px-4 py-2">Spent From</th>
+              <th className="text-left px-4 py-2">Source</th>
               <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
@@ -194,69 +216,7 @@ try {
                 <td className="px-4 py-2">{exp.source}</td>
                 <td className="px-4 py-2 text-center">
                   <button
-                    onClick={() => deleteExpense(index)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-
-
- 
-
-  
-
-      {/* Expense Table */}
-      <div className="mt-10 bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Manage Expenses</h2>
-
-        {/* Add Expense Inputs */}
-        <div className="flex gap-4 mb-4">
-          <input
-            type="text"
-            placeholder="Category"
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-            className="px-3 py-2 border rounded w-1/2"
-          />
-          <input
-            type="number"
-            placeholder="Amount"
-            value={newAmount}
-            onChange={(e) => setNewAmount(e.target.value)}
-            className="px-3 py-2 border rounded w-1/2"
-          />
-          <button
-            onClick={addExpense}
-            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-          >
-            Add
-          </button>
-        </div>
-
-        {/* Expense Table */}
-        <table className="w-full table-auto border border-gray-300">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="text-left px-4 py-2">Category</th>
-              <th className="text-left px-4 py-2">Amount</th>
-              <th className="px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {expenses.map((exp, index) => (
-              <tr key={index} className="border-t">
-                <td className="px-4 py-2">{exp.category}</td>
-                <td className="px-4 py-2">${exp.amount}</td>
-                <td className="px-4 py-2 text-center">
-                  <button
-                    onClick={() => deleteExpense(index)}
+                    onClick={() => deleteExpense(exp._id)}
                     className="text-red-500 hover:text-red-700"
                   >
                     Delete
