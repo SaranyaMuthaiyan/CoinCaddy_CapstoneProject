@@ -1,11 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import react from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const { setIsAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
@@ -13,9 +17,14 @@ function Login() {
                 email,
                 password
             });
-            alert(res.data.message);
+
+            console.log({data:res.data})
+
+            if (res.data.message === "Login successful") { setIsAuthenticated(true); navigate("/dashboard")}
+            else setIsAuthenticated(false);
             // Optionally store res.data.user in state or localStorage
         } catch (err) {
+            setIsAuthenticated(false);
             alert(err.response?.data?.error || 'Login error');
         }
     };
@@ -23,7 +32,7 @@ function Login() {
         <section className="bg-gray-50 dark:bg-gray-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                    <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
+                    {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" /> */}
                     Login Here
                 </a>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
