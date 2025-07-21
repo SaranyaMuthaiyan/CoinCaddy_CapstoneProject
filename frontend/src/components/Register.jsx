@@ -1,4 +1,4 @@
-import React from 'react';
+import react from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,7 +7,7 @@ function Register() {
         <section className="bg-gray-50 dark:bg-gray-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                    <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
+                    {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" /> */}
                     Register Here
                 </a>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -61,4 +61,6 @@ const handleSignup = async () => {
     alert('Error during signup');
   }
 };
+
+
 export default Register;
