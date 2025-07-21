@@ -35,7 +35,7 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [refetch]);
 
    // Add entries
   const addIncome = () => {
@@ -46,17 +46,20 @@ const Dashboard = () => {
   };
 
  const addExpense = () => {
-    if (!newExpenseCategory || !newExpenseAmount || !newExpenseSource) return;
-    setExpenses([...expenses, {
-      category: newExpenseCategory,
-      amount: parseFloat(newExpenseAmount),
-      source: newExpenseSource
-    }]);
-    setNewExpenseCategory('');
-    setNewExpenseAmount('');
-    setNewExpenseSource('');
-  };
+   try {
+      const postExpense = await axios.post('http://localhost:3000/api/finance/expenses', {
+        category: newExpenseCategory,
+        amount: newExpenseAmount,
+        source: newExpenseSource
+      })
 
+      console.log(postExpense.data);
+      setRefetch(refetch + 1);
+    } catch (err) {
+      console.error(err)
+    }
+  };
+   console.log(newExpenseCategory, newExpenseAmount, newExpenseSource)
 // Delete
   const deleteIncome = (index) => setIncome(income.filter((_, i) => i !== index));
   const deleteExpense = (index) => setExpenses(expenses.filter((_, i) => i !== index));
