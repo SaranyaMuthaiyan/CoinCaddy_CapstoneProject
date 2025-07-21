@@ -63,7 +63,13 @@ const Dashboard = () => {
 // Delete
   const deleteIncome = (index) => setIncome(income.filter((_, i) => i !== index));
   const deleteExpense = (index) => setExpenses(expenses.filter((_, i) => i !== index));
-
+try {
+      await axios.delete(`http://localhost:3000/api/finance/${id}`)
+      setRefetch(refetch + 1);
+    } catch (err) {
+      console.error("Error while deleting the expense", id)
+    }
+  };
   // Summary logic
   const incomeWithBalance = income.map((i) => {
     const spent = expenses
