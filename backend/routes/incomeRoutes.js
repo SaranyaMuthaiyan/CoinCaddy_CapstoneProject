@@ -26,7 +26,7 @@ router.post('/income', async (req, res) => {
     }
 });
 
-router.put('income/:id', async (req, res) => {
+router.put('/income/:id', async (req, res) => {
     try {
         const { source, amount, } = req.body;
         const newIncome = new Expense({ source, amount, createdAt: Date.now() });
@@ -37,7 +37,7 @@ router.put('income/:id', async (req, res) => {
     }
 });
 
-router.delete('income/:id', async (req, res) => {
+router.delete('/income/:id', async (req, res) => {
     try {
         const exps = await Income.findByIdAndDelete(req.params.id);
         res.status(200).json(exps);
