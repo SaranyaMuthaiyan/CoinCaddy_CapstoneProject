@@ -3,12 +3,6 @@ import Income from '../models/Income.js';
 const router = express.Router();
 
 
-const incomeData = [
-  { source: 'Salary', amount: 3000 },
-  { source: 'Freelance', amount: 1200 }
-];
-
-// router.get('/income', (req, res) => res.json(incomeData));
 
 router.get('/income', async (req, res) => {
     const inc = await Income.find();
@@ -26,7 +20,7 @@ router.post('/income', async (req, res) => {
     }
 });
 
-router.put('/income/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const { source, amount, } = req.body;
         const newIncome = new Expense({ source, amount, createdAt: Date.now() });
@@ -37,7 +31,7 @@ router.put('/income/:id', async (req, res) => {
     }
 });
 
-router.delete('/income/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const exps = await Income.findByIdAndDelete(req.params.id);
         res.status(200).json(exps);

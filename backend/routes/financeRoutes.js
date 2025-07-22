@@ -4,15 +4,6 @@ import Expense from '../models/Expense.js';
 const router = express.Router();
 
 
-
-// const expenseData = [
-//   { category: 'Rent', amount: 1200, source: 'Salary' },
-//   { category: 'Groceries', amount: 400, source: 'Salary' },
-//   { category: 'Utilities', amount: 150, source: 'Freelance' },
-//   { category: 'Entertainment', amount: 200, source: 'Freelance' }
-// ];
-
-// router.get('/income', (req, res) => res.json(incomeData));
 router.get('/expenses', async (req, res) => {
   const exp = await Expense.find();
   res.status(200).json(exp);
