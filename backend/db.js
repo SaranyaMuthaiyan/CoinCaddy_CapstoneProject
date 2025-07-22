@@ -9,5 +9,4 @@ console.log('MongoDb connected')
 }
     }
 
-
 export default connectDb

@@ -17,7 +17,6 @@ app.use('/api/finance', financeRoutes);
 app.use('/api/income', incomeRoutes);
 
 
-
 app.listen(port, () => {
     console.log('Listening on port: ' + port)
     connectDb()
