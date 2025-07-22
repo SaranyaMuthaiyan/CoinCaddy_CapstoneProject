@@ -16,7 +16,9 @@ function Income() {
         const fetchData = async () => {
             try {
                 const incomeRes = await axios.get('http://localhost:3000/api/income');
+                const expenseRes = await axios.get('http://localhost:3000/api/finance/expenses');
                 setIncome(incomeRes.data);
+                setExpenses(expenseRes.data);
             } catch (error) {
                 console.error('Error fetching dashboard data:', error);
             }
