@@ -2,14 +2,18 @@ import express from 'express';
 import Income from '../models/Income.js';
 const router = express.Router();
 
+const incomeData = [
+    { source: 'Salary', amount: 3000 },
+    { source: 'Freelance', amount: 1200 }
+];
+//  router.get('/income', (req, res) => res.json(incomeData));
 
-
-router.get('/income', async (req, res) => {
+router.get('/', async (req, res) => {
     const inc = await Income.find();
     res.status(200).json(inc);
 })
 
-router.post('/income', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { source, amount } = req.body;
         const newIncome = new Income({ source, amount, createdAt: Date.now() });
