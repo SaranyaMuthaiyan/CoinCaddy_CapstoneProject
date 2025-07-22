@@ -21,13 +21,13 @@ const AboutPage = () => {
         </div>
 
         <p className="text-md mb-4">
-          Whether you're budgeting for travel, cutting down debt, or just trying to save smarter—CoinCaddy blends powerful tools with a sleek, user-centric interface.
+          Whether you're budgeting for travel 💸, cutting down debt, or just trying to save smarter—CoinCaddy blends powerful tools with a sleek, user-centric interface.
         </p>
 
         <div className="mt-8">
           <h2 className="text-2xl font-semibold text-indigo-600 mb-2">Meet the Creator</h2>
           <p className="text-md">
-            This app was crafted by Saranya Muthaiyan ,a passionate developer with a keen eye for design and a commitment to empowering people through tech. Every chart, button, and component was built with care to make financial tracking feel less like a chore—and more like a superpower. ⚡
+            This app was crafted by Saranya Muthaiyan 👩🏽‍💻👋,a passionate developer with a keen eye for design and a commitment to empowering people through tech. Every chart, button, and component was built with care to make financial tracking feel less like a chore—and more like a superpower. ⚡
           </p>
         </div>
 
