@@ -17,10 +17,10 @@ const Dashboard = () => {
   const [income, setIncome] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [refetch, setRefetch] = useState(0);
-  
 
 
- 
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,14 +52,13 @@ const Dashboard = () => {
     }
   };
 
-
-  
   // console.log(newExpenseCategory, newExpenseAmount, newExpenseSource)
-  // Delete
-  const deleteIncome = (index) => setIncome(income.filter((_, i) => i !== index));
-  
 
-  // Summary logic
+  // Delete income (locally)
+  const deleteIncome = (index) => setIncome(income.filter((_, i) => i !== index));
+
+
+  // Summary logic //calculating spent & Remaining
   const incomeWithBalance = income.map((i) => {
     const spent = expenses
       .filter((e) => e.source === i.source)
@@ -70,6 +69,7 @@ const Dashboard = () => {
       remaining: i.amount - spent
     };
   });
+
   // Color logic for Pie chart
   const getColor = (remaining) => {
     if (remaining > 1000) return 'rgba(34,197,94,0.6)'; // Green
@@ -111,7 +111,7 @@ const Dashboard = () => {
   const totalIncome = income.reduce((sum, i) => sum + i.amount, 0);
   const totalExpense = expenses.reduce((sum, e) => sum + e.amount, 0);
   const netCashFlow = totalIncome - totalExpense;
-  const dtiRatio = ((totalExpense / totalIncome)*100).toFixed(2);
+  const dtiRatio = ((totalExpense / totalIncome) * 100).toFixed(2);
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-6">
@@ -156,7 +156,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-     
+
     </div>
   );
 };
