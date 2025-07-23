@@ -21,8 +21,19 @@ Development Notes
 - Live chart updates triggered on entry changes with minimal re-rendering
 - Backend handles validation, error states, and clean API structure
 
-Planned Improvements
- -Add recurring transaction support
+Planned Improvements:
+ -Add accessibility  to all type f users.
  -Multi-currency support and localization
 
+
+PreRequesties:
+Install  Node.js, Express, MongoDb 
+
+1.Clone the repo
+2.Install the Frontend  dependencies ==>npm install
+3.Install Backend Dependencies ==>npm init -y
+4.Connect to Db
+5.Setup the environment variables
+6.To start front end==> npm run dev
+7.To start the backend ==> nodemon index.js
 
