@@ -65,7 +65,7 @@ function Income() {
     };
     return (
         <div className="min-h-screen bg-gray-100 py-10 px-6">
-            <h1 className="text-3xl font-bold text-center text-indigo-700 mb-8">Manage Incomes</h1>
+            <h1 className="text-3xl font-bold text-center text-indigo-700 mb-8">Manage Incomes 🤑</h1>
             <div className="mt-10 bg-white p-6 rounded-lg shadow">
                 <div className="flex gap-4 mb-4">
                     <form name="newIncome" action={addIncome}>
