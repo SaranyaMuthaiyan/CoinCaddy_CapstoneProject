@@ -22,7 +22,7 @@ Development Notes
 - Backend handles validation, error states, and clean API structure
 
 Planned Improvements:
- -Add accessibility  to all type f users.
+ -Add accessibility  to all type of users.
  -Multi-currency support and localization
 
 
